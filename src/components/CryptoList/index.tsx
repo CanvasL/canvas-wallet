@@ -1,14 +1,21 @@
 import { Card, Button, Image, List, Icon } from 'semantic-ui-react';
 
-const CryptoList = () => {
-    const savedCryptos = ['btc', 'eth', 'zen', 'uni', 'crv'];
+interface IProps {
+    header: string, 
+    button: string, 
+    cryptos: string[]
+}
+
+const CryptoList = (props: IProps) => {
+    const {header, button, cryptos} = props;
+    
     return (
         <Card>
-            <Card.Content header='Wallets' />
+            <Card.Content header={header} />
             <Card.Content>
                 <List divided verticalAlign='middle'>
                     {
-                        savedCryptos.map((crypto, index) => {
+                        cryptos.map((crypto, index) => {
                             return (
                                 <List.Item key={index}>
                                     <List.Content floated='left'>
@@ -22,7 +29,7 @@ const CryptoList = () => {
                                         (crypto === 'btc' || crypto === 'eth') ? (
                                             <></>
                                         ) : <List.Content floated='right'>
-                                            <Button>Delete</Button>
+                                            <Button>{button}</Button>
                                         </List.Content>
                                     }
                                 </List.Item>
