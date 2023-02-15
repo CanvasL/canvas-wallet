@@ -2,6 +2,7 @@
     "dashboard": {
         "total_balance": "Total Balance",
         "wallets": "Wallets",
+        "delete": "Delete",
         "activity": "Activity",
         "send": "Send",
         "receive": "Receive"
