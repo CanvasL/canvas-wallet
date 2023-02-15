@@ -1,0 +1,9 @@
+{
+    "dashboard": {
+        "total_balance": "Total Balance",
+        "wallets": "Wallets",
+        "activity": "Activity",
+        "send": "Send",
+        "receive": "Receive"
+    }
+}

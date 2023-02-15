@@ -9,7 +9,9 @@ const Balance = () => {
     return (
         <Card>
             <Card.Content header='Total Balance' />
-            <Card.Content description={description} />
+            <Card.Content description>
+                {description}
+            </Card.Content>
             <Card.Content extra>
                 <Icon name='dollar' />4 USD
             </Card.Content>
