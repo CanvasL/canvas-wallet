@@ -1,11 +1,10 @@
 import './App.scss';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {Header} from './layouts';
 import { Dashboard, Transactions, Settings } from './pages';
 
 const App = () => {
   return (
-    <BrowserRouter>
       <div className='App'>
         <Header />
         <Routes>
@@ -14,7 +13,6 @@ const App = () => {
           <Route path='/settings' element={<Settings />} />
         </Routes>
       </div>
-    </BrowserRouter>
   );
 }
 
