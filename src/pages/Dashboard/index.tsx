@@ -26,7 +26,7 @@ const Dashboard = () => {
                     <Balance />
                     <CryptoList
                         header={i18n.t('dashboard.wallets')}
-                        button={i18n.t('dashboard.button')}
+                        button={i18n.t('dashboard.delete')}
                         cryptos={savedCryptos}
                     />
                 </Grid.Column>
