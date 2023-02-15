@@ -1,11 +1,20 @@
 import './App.scss';
-import Header from './layouts/Header';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {Header} from './layouts';
+import { Dashboard, Transactions, Settings } from './pages';
 
 const App = () => {
   return (
-    <div className="App">
-      <Header/>
-    </div>
+    <BrowserRouter>
+      <div className='App'>
+        <Header />
+        <Routes>
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/transactions' element={<Transactions />} />
+          <Route path='/settings' element={<Settings />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
