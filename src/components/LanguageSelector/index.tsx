@@ -1,26 +1,23 @@
-import { Dropdown } from 'semantic-ui-react';
-import en from '../../assets/languages/en.svg';
-import cn from '../../assets/languages/cn.svg';
-import tw from '../../assets/languages/tw.svg';
+import { Dropdown, Flag } from 'semantic-ui-react';
 
 const languageOptions = [
   {
     key: 'en',
     text: 'English',
     value: 'en',
-    image: { avatar: true, src: en },
+    image: () => <Flag name='uk' />,
   },
   {
     key: 'cn',
     text: 'Chinese',
     value: 'cn',
-    image: { avatar: true, src: cn },
+    image: () => <Flag name='china' />,
   },
   {
     key: 'tw',
     text: 'Chinese',
     value: 'tw',
-    image: { avatar: true, src: tw },
+    image: () => <Flag name='taiwan' />,
   },
 ]
 
