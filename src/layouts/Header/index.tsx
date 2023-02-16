@@ -35,6 +35,7 @@ const Header = () => {
                 />
                 <Menu.Item
                     name='settings'
+                    icon='setting'
                     active={activeItem === 'settings'}
                     onClick={handleItemClick}
                 />
