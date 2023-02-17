@@ -8,19 +8,25 @@
         "receive": "Receive"
     },
     "settings": {
+        "new":{
+            "title": "New wallet",
+            "generate": "Generate Mnemonic",
+            "notice": "Please write down the following words and store them in a safe place as they can't be recovered.",
+            "import_directly": "Import directly"
+        },
         "import": {
             "title": "Import wallet",
             "button": "Import",
             "private_key": {
                 "name": "Private key",
-                "header": "Import coins from another wallet using a private key.",
+                "header": "Import wallet using a private key.",
                 "description": "Coins assigned to the private key will be deposited to your Freewallet account. Once the import is completed, you will see the imported coins excluding the network fee reflected on your Freewallet balance.",
                 "label": "ENTER PRIVATE KEY",
                 "place_holder": ""
             },
             "mnemonic_phrase": {
                 "name": "Mnemonic phrase",
-                "header": "Import coins from another HD wallet using a mnemonic phrase.",
+                "header": "Import HD wallet using a mnemonic phrase.",
                 "description": "Coins held in an HD wallet associated with the mnemonic phrase will be deposited to your Freewallet account. Once the import is completed, you will see the imported coins from the HD wallet excluding the network fee reflected on your Freewallet balance.",
                 "label": "ENTER MNEMONIC PHRASE",
                 "place_holder": "Separate words with a space"
