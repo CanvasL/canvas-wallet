@@ -1,13 +1,18 @@
 import './index.scss';
 import { useState } from "react";
-import { Menu, MenuItemProps } from "semantic-ui-react";
+import { observer } from 'mobx-react-lite';
+import { Label, Menu, MenuItemProps } from "semantic-ui-react";
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
-import LanguageSelector from '../../components/LanguageSelector';
+import { LanguageSelector } from '../../components/';
+import { useStore } from '../../store';
+import { shortenAddress } from '../../utils';
+import i18n from '../../i18n';
 
 const Header = () => {
-    const [state, setState] = useState({ activeItem: 'home' });
     const navigate = useNavigate();
+    const [state, setState] = useState({ activeItem: 'home' });
+    const { walletStore } = useStore();
 
     const handleItemClick = (_: any, { name }: MenuItemProps) => {
         setState({ activeItem: name as string });
@@ -43,15 +48,15 @@ const Header = () => {
                     <Menu.Item>
                         <LanguageSelector />
                     </Menu.Item>
-                    <Menu.Item
-                        name='logout'
-                        active={activeItem === 'logout'}
-                        onClick={handleItemClick}
-                    />
+                    <Menu.Item>
+                        <Label size='large' as='a' color={walletStore.wallet ? 'teal' : 'orange'}>
+                            {walletStore.wallet ? shortenAddress(walletStore.wallet.address) : i18n.t('settings.import.title')}
+                        </Label>
+                    </Menu.Item>
                 </Menu.Menu>
             </Menu>
         </>
     )
 }
 
-export default Header;
+export default observer(Header);

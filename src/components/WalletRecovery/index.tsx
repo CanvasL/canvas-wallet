@@ -1,21 +1,11 @@
 import './index.scss';
 import { Grid, Card, Button, Input } from 'semantic-ui-react';
 import i18n from '../../i18n';
-import { RecoveryType } from '../../types';
+import { IContent, RecoveryType } from '../../types';
+
 import { useState } from 'react';
 import { InputLabel } from '../';
-
-interface IProps {
-    // type: RecoveryType
-}
-
-interface IContent {
-    header: string,
-    description: string,
-    label: string,
-    placeHolder: string,
-    color: 'green' | 'blue'
-}
+import { useStore } from '../../store';
 
 const contents: IContent[] = [
     {
@@ -34,9 +24,11 @@ const contents: IContent[] = [
     },
 ]
 
-const WalletRecovery = (props: IProps) => {
+const WalletRecovery = () => {
     const [type, setType] = useState(RecoveryType.PrivateKey);
     const [content, setContent] = useState(contents[0]);
+    const [inputValue, setInputValue] = useState("");
+    const { walletStore } = useStore();
 
     const { header, description, label, placeHolder, color } = content;
 
@@ -48,44 +40,64 @@ const WalletRecovery = (props: IProps) => {
             setType(RecoveryType.MnemonicPhrase);
             setContent(contents[1]);
         }
-    }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    };
+
+    const importWallet = () => {
+        walletStore.importWallet(type, inputValue);
+    };
 
     return (
-        <Grid id='wallet-recovery'>
+        <Grid id="wallet-recovery">
             <Grid.Column width={4} />
 
             <Grid.Column width={8}>
-                <Button.Group width='2'>
+                <Button.Group width="2">
                     <Button
-                        size='big'
-                        color={type === RecoveryType.PrivateKey?color:undefined}
+                        size="big"
+                        color={type === RecoveryType.PrivateKey ? color : undefined}
                         onClick={() => selectType(RecoveryType.PrivateKey)}
-                    >{i18n.t('settings.import.private_key.name')}</Button>
+                    >
+                        {i18n.t("settings.import.private_key.name")}
+                    </Button>
                     <Button.Or />
                     <Button
-                        size='big'
-                        color={type === RecoveryType.MnemonicPhrase?color:undefined}
+                        size="big"
+                        color={type === RecoveryType.MnemonicPhrase ? color : undefined}
                         onClick={() => selectType(RecoveryType.MnemonicPhrase)}
-                    >{i18n.t('settings.import.mnemonic_phrase.name')}</Button>
+                    >
+                        {i18n.t("settings.import.mnemonic_phrase.name")}
+                    </Button>
                 </Button.Group>
-                <Card className='width-infinite'>
-                    <Card.Content header>
-                        {header}
-                    </Card.Content>
-                    <Card.Content id='description_area' description>
+                <Card className="width-infinite">
+                    <Card.Content header>{header}</Card.Content>
+                    <Card.Content id="description_area" description>
                         {description}
                     </Card.Content>
                 </Card>
                 <InputLabel text={label} />
-                <div id='input-area'>
-                    <Input size='large' className='width-infinite' placeholder={placeHolder} />
+                <div id="input-area">
+                    <Input
+                        size="large"
+                        className="width-infinite"
+                        placeholder={placeHolder}
+                        value={inputValue}
+                        onChange={handleInputChange}
+                    />
                 </div>
-                <Button content={i18n.t('settings.import.button')} color={color} />
+                <Button
+                    content={i18n.t("settings.import.button")}
+                    color={color}
+                    onClick={importWallet}
+                />
             </Grid.Column>
 
             <Grid.Column width={4} />
         </Grid>
-    )
-}
+    );
+};
 
 export default WalletRecovery
