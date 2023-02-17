@@ -1,16 +1,13 @@
 import { Tab, Grid } from 'semantic-ui-react';
 import { WalletRecovery } from '../../components';
 import i18n from '../../i18n';
-import { RecoveryType } from '../../types';
 
 const panes = [
     {
         menuItem: i18n.t('settings.import.title'),
         render: () => <Tab.Pane attached={false}>
-            <WalletRecovery
-
-            />
-        </Tab.Pane>,
+                <WalletRecovery />
+            </Tab.Pane>,
     },
     {
         menuItem: i18n.t('settings.export.title'),
