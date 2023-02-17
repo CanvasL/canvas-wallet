@@ -13,3 +13,21 @@ code {
     monospace;
 }
 
+@mixin width-percent($percent: 100%) {
+  width: $percent !important
+}
+
+.flex {
+  display: flex;
+  &--center {
+    @extend .flex;
+    justify-content: center;
+  }
+  &--between {
+    @extend .flex;
+    justify-content: space-between;
+  }
+  &--vertical-center {
+    align-items: center;
+  }
+}
