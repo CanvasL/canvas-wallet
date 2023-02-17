@@ -1,0 +1,19 @@
+@import '../../index.scss';
+
+#wallet-recovery {
+    .width-infinite {
+        @include width-percent();
+    }
+
+    #description_area {
+        min-height: 20rem;
+        font-size: 1.5rem;
+        color: rgb(105, 105, 105);
+        text-align: left;
+        line-height: 1.5;
+    }
+    #input-area {
+        margin: 1rem 0;
+    }
+}
+
