@@ -1,17 +1,15 @@
 import { Tab, Grid } from 'semantic-ui-react';
-import { WalletRecovery } from '../../components';
+import { WalletCreate, WalletRecovery } from '../../components';
 import i18n from '../../i18n';
 
 const panes = [
     {
-        menuItem: i18n.t('settings.import.title'),
-        render: () => <Tab.Pane attached={false}>
-                <WalletRecovery />
-            </Tab.Pane>,
+        menuItem: i18n.t('settings.new.title'),
+        render: () => <Tab.Pane attached={false}><WalletCreate /></Tab.Pane>,
     },
     {
-        menuItem: i18n.t('settings.export.title'),
-        render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane>,
+        menuItem: i18n.t('settings.import.title'),
+        render: () => <Tab.Pane attached={false}><WalletRecovery /></Tab.Pane>,
     },
     {
         menuItem: 'Tab 3',
