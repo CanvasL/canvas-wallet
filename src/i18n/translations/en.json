@@ -31,9 +31,6 @@
                 "label": "ENTER MNEMONIC PHRASE",
                 "place_holder": "Separate words with a space"
             }
-        },
-        "export": {
-            "title": "Export wallet"
         }
     }
 }
