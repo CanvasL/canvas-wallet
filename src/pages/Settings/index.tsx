@@ -11,10 +11,6 @@ const panes = [
         menuItem: i18n.t('settings.import.title'),
         render: () => <Tab.Pane attached={false}><WalletRecovery /></Tab.Pane>,
     },
-    {
-        menuItem: 'Tab 3',
-        render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>,
-    },
 ]
 
 const Settings = () => {
