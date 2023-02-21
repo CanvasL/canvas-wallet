@@ -1,11 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { ethers } from "ethers";
 import { RecoveryType } from "../types";
+import { http } from '../utils';
 
 class WalletStore {
     wallet?: ethers.Wallet | ethers.HDNodeWallet;
     provider?: ethers.Provider;
     balance?: bigint;
+    prices?: any;
     // transactionHistory?: Array<any>;
 
     constructor() {
@@ -22,6 +24,7 @@ class WalletStore {
         this.provider = new ethers.InfuraProvider();
         this.balance = await this.provider.getBalance(this.wallet.address);
         // this.transactionHistory = await this.provider.getHistory(this.wallet.address);
+        this.prices = await http.get('simple/price?ids=ethereum&vs_currencies=usd');
     }
 }
 

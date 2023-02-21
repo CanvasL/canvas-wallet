@@ -1,19 +1,22 @@
 import { Card, Icon } from 'semantic-ui-react';
-
-const description = [
-    'Amy is a violinist with 2 years experience in the wedding industry.',
-    'She enjoys the outdoors and currently resides in upstate New York.',
-].join(' ')
+import { ethers } from "ethers";
+import { useStore } from '../../store';
 
 const Balance = () => {
+    const { walletStore } = useStore();
+    const balance = parseFloat(ethers.formatEther(walletStore.balance || '0'));
+    const balanceInDollar = parseFloat(walletStore.prices?.ethereum.usd) * (walletStore.balance ? balance : 0);
+
     return (
         <Card>
             <Card.Content header='Total Balance' />
             <Card.Content description>
-                {description}
+                <Icon name='ethereum' />
+                {balance}
             </Card.Content>
             <Card.Content extra>
-                <Icon name='dollar' />4 USD
+                <Icon name='dollar' />
+                {balanceInDollar}
             </Card.Content>
         </Card>
     )
