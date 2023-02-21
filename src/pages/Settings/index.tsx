@@ -1,5 +1,5 @@
 import { Tab, Grid } from 'semantic-ui-react';
-import { WalletCreate, WalletRecovery } from '../../components';
+import { WalletCreate, WalletRecovery, MultiSigWallet } from '../../components';
 import i18n from '../../i18n';
 
 const panes = [
@@ -10,6 +10,10 @@ const panes = [
     {
         menuItem: i18n.t('settings.import.title'),
         render: () => <Tab.Pane attached={false}><WalletRecovery /></Tab.Pane>,
+    },
+    {
+        menuItem: i18n.t('settings.multi_sig.title'),
+        render: () => <Tab.Pane attached={false}><MultiSigWallet /></Tab.Pane>,
     },
 ]
 
