@@ -3,7 +3,7 @@ import { useState } from "react";
 import { observer } from 'mobx-react-lite';
 import { Label, Menu, MenuItemProps } from "semantic-ui-react";
 import { ReactComponent as Logo } from '../../assets/logo.svg';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LanguageSelector } from '../../components/';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
@@ -11,7 +11,8 @@ import i18n from '../../i18n';
 
 const Header = () => {
     const navigate = useNavigate();
-    const [state, setState] = useState({ activeItem: 'home' });
+    const { pathname } = useLocation();
+    const [state, setState] = useState({ activeItem: pathname });
     const { walletStore } = useStore();
 
     const handleItemClick = (_: any, { name }: MenuItemProps) => {
@@ -29,19 +30,19 @@ const Header = () => {
                     </Menu.Item>
                 </Menu.Menu>
                 <Menu.Item
-                    name='dashboard'
-                    active={activeItem === 'dashboard'}
+                    name='/dashboard'
+                    active={activeItem === '/dashboard'}
                     onClick={handleItemClick}
                 />
                 <Menu.Item
-                    name='transactions'
-                    active={activeItem === 'transactions'}
+                    name='/transactions'
+                    active={activeItem === '/transactions'}
                     onClick={handleItemClick}
                 />
                 <Menu.Item
-                    name='settings'
+                    name='/settings'
                     icon='setting'
-                    active={activeItem === 'settings'}
+                    active={activeItem === '/settings'}
                     onClick={handleItemClick}
                 />
                 <Menu.Menu position='right'>
