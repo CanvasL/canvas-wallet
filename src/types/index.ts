@@ -4,5 +4,5 @@ export {
     RecoveryType
 };
 export type { 
-    IContent 
+    IContent,
 };
