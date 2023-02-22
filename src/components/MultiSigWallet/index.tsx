@@ -1,68 +1,70 @@
 import './index.scss';
 import { useState } from 'react';
-import { Button, Form, Grid, Input, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
+import { Button, ButtonProps, Form, Grid, Input, InputProps, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
 
 const MultiSigWallet = () => {
     const { walletStore } = useStore();
-    const [state, setState] = useState({ activeItem: 'create'});
+    const [state, setState] = useState({
+        activeItem: 'create',
+        numConfirmations: 1,
+        owners: [walletStore.wallet?.address]
+    });
 
     const handleItemClick = (_: any, { name }: MenuItemProps) => {
-        setState({ activeItem: name as string })
+        setState({
+            ...state,
+            activeItem: name as string
+        })
     }
 
-    const { activeItem } = state;
+    const handleConfirmationsChange = (_: any, { value }: InputProps) => {
+        setState({
+            ...state,
+            numConfirmations: value
+        })
+    }
+
+    const addNewOwner = () => {
+        setState({
+            ...state,
+            owners: [...owners, undefined]
+        })
+    }
+
+    const createWallet = async () => {
+        await walletStore.canvasWallet?.createMultiSigWallet(
+            state.numConfirmations,
+            state.owners
+        );
+    }
+
+    const { activeItem, owners } = state;
     return (
         <Grid>
             <Grid.Column width={6}>
                 <Menu size='large' vertical>
                     {
-                        (walletStore.multiSigWalletAddress || []).map((address, index) => {
+                        (walletStore.multiSigWalletAddress || []).map((address, index1) => {
                             return (
                                 <Menu.Item
-                                    key={index}
+                                    key={index1}
                                     name={address}
                                     active={activeItem === address}
                                     onClick={handleItemClick}
                                 >
-                                    <Label color='teal'>{index + 1}</Label>
+                                    <Label color='teal'>{index1 + 1}</Label>
                                     {shortenAddress(address)}
                                 </Menu.Item>
                             )
                         })
                     }
-                    {/* <Menu.Item
-                        name='inbox'
-                        active={activeItem === 'inbox'}
-                        onClick={handleItemClick}
-                    >
-                        <Label color='teal'>1</Label>
-                        Inbox
-                    </Menu.Item>
-
-                    <Menu.Item
-                        name='spam'
-                        active={activeItem === 'spam'}
-                        onClick={handleItemClick}
-                    >
-                        <Label>51</Label>
-                        Spam
-                    </Menu.Item>
-
-                    <Menu.Item
-                        name='updates'
-                        active={activeItem === 'updates'}
-                        onClick={handleItemClick}
-                    >
-                        <Label>1</Label>
-                        Updates
-                    </Menu.Item> */}
                     <Menu.Item
                         name='create'
                         active={activeItem === 'create'}
                     >
-                        <Button basic color='teal'>Create</Button>
+                        <Button color='teal' onClick={createWallet}>Create</Button>
                     </Menu.Item>
                 </Menu>
             </Grid.Column>
@@ -71,23 +73,37 @@ const MultiSigWallet = () => {
                     <Form>
                         <Form.Field>
                             <label>Num Confirmations Required</label>
-                            <Input placeholder='0' />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Owners</label>
-                            <Input icon='settings' iconPosition='left' disabled placeholder='0x' />
-                        </Form.Field>
-                        <Form.Field>
-                            <Input icon='settings' iconPosition='left' placeholder='0x' />
-                        </Form.Field>
-                        <Form.Field>
-                            <Button
-                                content='Add New Owner'
-                                icon='add'
-                                labelPosition='left'
+                            <Input
+                                placeholder={owners.length}
+                                onChange={handleConfirmationsChange}
                             />
                         </Form.Field>
-                        {/* <Button color='teal' type='submit'>Create</Button> */}
+                        {
+                            owners.map((owner, index2) => {
+                                return (
+                                    <Form.Field key={index2}>
+                                        <label>{`Owner ${index2 + 1}`}</label>
+                                        <Input
+                                            action={{
+                                                icon: 'trash',
+                                            }}
+                                            icon='settings'
+                                            value={owner}
+                                            iconPosition='left'
+                                            disabled={index2 === 0}
+                                            placeholder='0x'
+                                        />
+                                    </Form.Field>
+                                )
+                            })
+                        }
+                        <Form.Field>
+                            <Button
+                                name='add'
+                                onClick={addNewOwner}
+                                icon='add'
+                            />
+                        </Form.Field>
                     </Form>
                 </Segment>
             </Grid.Column>

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Label, Menu, MenuItemProps } from "semantic-ui-react";
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LanguageSelector } from '../../components/';
+import { LanguageSelector, NetworkSelector } from '../../components/';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
 import i18n from '../../i18n';
@@ -48,6 +48,9 @@ const Header = () => {
                 <Menu.Menu position='right'>
                     <Menu.Item>
                         <LanguageSelector />
+                    </Menu.Item>
+                    <Menu.Item>
+                        <NetworkSelector />
                     </Menu.Item>
                     <Menu.Item>
                         <Label size='large' as='a' color={walletStore.wallet ? 'teal' : 'orange'}>
