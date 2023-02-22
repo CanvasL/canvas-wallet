@@ -5,7 +5,7 @@ import { http } from '../utils';
 import walletDeclareFile from '../deployments/MultiSigWallet.json';
 
 class WalletStore {
-    network?: 'homestead' | 'goerli';
+    network?: string;   // 'homestead' | 'goerli'
     wallet?: ethers.Wallet | ethers.HDNodeWallet;
     canvasWallet?: Contract;
     multiSigWalletAddress?: string[];
@@ -19,7 +19,7 @@ class WalletStore {
         this._initNetwork();
         this._initWallet();
     }
-    
+
     getMultiSigWallet = (address: string) => {
         return new ethers.Contract(address, walletDeclareFile.abi, this.provider);
     }
@@ -37,18 +37,27 @@ class WalletStore {
     }
 
     initCanvasWallet = async () => {
+        console.log('init in store, this.network=', this.network);
         const walletFactoryDeclareFile = require(`../deployments/${this.network}/MultiSigWalletFactory.json`);
-        this.canvasWallet = new ethers.Contract(walletFactoryDeclareFile.address, walletFactoryDeclareFile.abi, this.provider);
+        this.canvasWallet = new ethers.Contract(
+            walletFactoryDeclareFile.address,
+            walletFactoryDeclareFile.abi,
+            this.provider
+        );
+        console.log('this.canvasWallet=', this.canvasWallet)
         await this._initMultiSigWalletsAddress();
     }
 
-    initNetwork = async (network: 'homestead' | 'goerli') => {
+    setNetwork = async (network: string) => {
         this.network = network;
         localStorage.setItem('canvas-wallet--network', network);
     }
 
     private _initWallet = async () => {
-        this.importWallet(RecoveryType.MnemonicPhrase, 'fringe phrase river ostrich sail climb kingdom weasel palace gas party flight');
+        this.importWallet(
+            RecoveryType.MnemonicPhrase,
+            'fringe phrase river ostrich sail climb kingdom weasel palace gas party flight'
+        );
     }
 
     private _initNetwork = () => {
@@ -73,6 +82,7 @@ class WalletStore {
 
     private _initMultiSigWalletsAddress = async () => {
         this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.wallet!.address);
+        console.log('multiSigWalletAddress=', this.multiSigWalletAddress)
     }
 }
 

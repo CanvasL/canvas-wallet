@@ -5,6 +5,7 @@ import WalletCreate from "./WalletCreate";
 import WalletRecovery from "./WalletRecovery";
 import MultiSigWallet from "./MultiSigWallet";
 import InputLabel from "./InputLabel";
+import NetworkSelector from "./NetworkSelector";
 
 export {
     Balance,
@@ -13,5 +14,6 @@ export {
     WalletCreate,
     WalletRecovery,
     MultiSigWallet,
-    InputLabel
+    InputLabel,
+    NetworkSelector
 }
