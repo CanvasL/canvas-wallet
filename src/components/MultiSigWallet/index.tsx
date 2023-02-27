@@ -1,6 +1,6 @@
 import './index.scss';
 import { useState } from 'react';
-import { Button, ButtonProps, Form, Grid, Input, InputProps, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Input, InputProps, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
 

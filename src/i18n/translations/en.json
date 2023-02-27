@@ -14,8 +14,8 @@
             "notice": "Please write down the following words and store them in a safe place as they can't be recovered.",
             "import_directly": "Import directly"
         },
-        "import": {
-            "title": "Import wallet",
+        "recover": {
+            "title": "Recover wallet",
             "button": "Import",
             "private_key": {
                 "name": "Private key",
