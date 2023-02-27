@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Dropdown, DropdownProps } from "semantic-ui-react";
 import { useStore } from "../../store";
 

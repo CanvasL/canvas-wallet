@@ -1,8 +1,13 @@
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import { Dashboard, Settings, Transactions } from "../pages";
+import { WalletCreate, WalletRecovery, MultiSigWallet } from '../components';
 
 const GetRoutes = () => {
     return useRoutes([
+        {
+            path: '/',
+            element: <Navigate to='/dashboard' />
+        },
         {
             path: '/dashboard',
             element: <Dashboard />
@@ -13,7 +18,22 @@ const GetRoutes = () => {
         },
         {
             path: '/settings',
-            element: <Settings />
+            element: <Settings />,
+            children: [
+                {
+                    path: 'create_wallet',
+                    element: <WalletCreate />,
+                    index: true
+                },
+                {
+                    path: 'recover_wallet',
+                    element: <WalletRecovery />
+                },
+                {
+                    path: 'multi_sig_wallet',
+                    element: <MultiSigWallet />
+                },
+            ]
         },
     ])
 }

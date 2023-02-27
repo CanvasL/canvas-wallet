@@ -9,17 +9,17 @@ import { useStore } from '../../store';
 
 const contents: IContent[] = [
     {
-        header: i18n.t('settings.import.private_key.header'),
-        description: i18n.t('settings.import.private_key.description'),
-        label: i18n.t('settings.import.private_key.label'),
-        placeHolder: i18n.t('settings.import.private_key.place_holder'),
+        header: i18n.t('settings.recover.private_key.header'),
+        description: i18n.t('settings.recover.private_key.description'),
+        label: i18n.t('settings.recover.private_key.label'),
+        placeHolder: i18n.t('settings.recover.private_key.place_holder'),
         color: 'blue'
     },
     {
-        header: i18n.t('settings.import.mnemonic_phrase.header'),
-        description: i18n.t('settings.import.mnemonic_phrase.description'),
-        label: i18n.t('settings.import.mnemonic_phrase.label'),
-        placeHolder: i18n.t('settings.import.mnemonic_phrase.place_holder'),
+        header: i18n.t('settings.recover.mnemonic_phrase.header'),
+        description: i18n.t('settings.recover.mnemonic_phrase.description'),
+        label: i18n.t('settings.recover.mnemonic_phrase.label'),
+        placeHolder: i18n.t('settings.recover.mnemonic_phrase.place_holder'),
         color: 'green'
     },
 ]
@@ -61,7 +61,7 @@ const WalletRecovery = () => {
                         color={type === RecoveryType.PrivateKey ? color : undefined}
                         onClick={() => selectType(RecoveryType.PrivateKey)}
                     >
-                        {i18n.t("settings.import.private_key.name")}
+                        {i18n.t("settings.recover.private_key.name")}
                     </Button>
                     <Button.Or />
                     <Button
@@ -69,7 +69,7 @@ const WalletRecovery = () => {
                         color={type === RecoveryType.MnemonicPhrase ? color : undefined}
                         onClick={() => selectType(RecoveryType.MnemonicPhrase)}
                     >
-                        {i18n.t("settings.import.mnemonic_phrase.name")}
+                        {i18n.t("settings.recover.mnemonic_phrase.name")}
                     </Button>
                 </Button.Group>
                 <Card className="width-infinite">
@@ -89,7 +89,7 @@ const WalletRecovery = () => {
                     />
                 </div>
                 <Button
-                    content={i18n.t("settings.import.button")}
+                    content={i18n.t("settings.recover.button")}
                     color={color}
                     onClick={importWallet}
                 />
