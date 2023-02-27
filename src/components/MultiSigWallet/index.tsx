@@ -33,6 +33,14 @@ const MultiSigWallet = () => {
         })
     }
 
+    const delOwner = (index: number) => {
+        owners.splice(index, 1);
+        setState({
+            ...state,
+            owners
+        })
+    }
+
     const createWallet = async () => {
         await walletStore.canvasWallet?.createMultiSigWallet(
             state.numConfirmations,
@@ -86,6 +94,8 @@ const MultiSigWallet = () => {
                                         <Input
                                             action={{
                                                 icon: 'trash',
+                                                onClick: () => delOwner(index2),
+                                                disabled: index2 === 0 ? true : false
                                             }}
                                             icon='settings'
                                             value={owner}
