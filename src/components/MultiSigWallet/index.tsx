@@ -1,16 +1,21 @@
 import './index.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Grid, Input, InputProps, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
 
 const MultiSigWallet = () => {
-    const { walletStore } = useStore();
+    const { walletStore, multiSigWalletStore } = useStore();
     const [state, setState] = useState({
         activeItem: 'create',
         numConfirmations: 1,
         owners: [walletStore.wallet?.address]
     });
+
+    useEffect(() => {
+        console.log("useEffect: init canvas wallet")
+        multiSigWalletStore.initCanvasWallet();
+    }, [multiSigWalletStore]);
 
     const handleItemClick = (_: any, { name }: MenuItemProps) => {
         setState({
@@ -42,10 +47,17 @@ const MultiSigWallet = () => {
     }
 
     const createWallet = async () => {
-        await walletStore.canvasWallet?.createMultiSigWallet(
-            state.numConfirmations,
-            state.owners
-        );
+        try {
+            const tx = await multiSigWalletStore.canvasWallet?.createMultiSigWallet(
+                state.owners,
+                state.numConfirmations,
+            );
+            console.log('tx=', tx)
+            const res = await tx.wait();
+            console.log('res=', res);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     const { activeItem, owners } = state;
@@ -54,7 +66,7 @@ const MultiSigWallet = () => {
             <Grid.Column width={6}>
                 <Menu size='large' vertical>
                     {
-                        (walletStore.multiSigWalletAddress || []).map((address, index1) => {
+                        (multiSigWalletStore.multiSigWalletAddress || []).map((address, index1) => {
                             return (
                                 <Menu.Item
                                     key={index1}
