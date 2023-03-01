@@ -23,6 +23,10 @@ class MultiSigWalletStore {
         return new ethers.Contract(address, walletDeclareFile.abi, this.rootStore.walletStore.provider);
     }
 
+    getWalletDetailsByAddress = (address: string) => {
+        return this.multiSigWalletDetails![this.multiSigWalletAddress!.indexOf(address)];
+    }
+
     initCanvasWallet = async () => {
         const walletFactoryDeclareFile = require(`../deployments/${this.rootStore.walletStore.network}/MultiSigWalletFactory.json`);
         this.canvasWallet = new ethers.Contract(
@@ -35,6 +39,18 @@ class MultiSigWalletStore {
     initExsitingWalletAddress = async () => {
         this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.rootStore.walletStore.wallet!.address);
         await this._initExsitingWalletDetails();
+    }
+
+    addOwnerOnChain = async (wallet: string, owner: string) => {
+
+    }
+
+    delOwnerOnChain = async (wallet: string, owner: string) => {
+
+    }
+
+    resetNumConfirmationsOnChain = async (wallet: string, numConfirmations: number) => {
+
     }
 
     private _initExsitingWalletDetails = async () => {
