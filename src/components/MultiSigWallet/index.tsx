@@ -16,7 +16,7 @@ const MultiSigWallet = () => {
     useEffect(() => {
         console.log("useEffect: init canvas wallet")
         multiSigWalletStore.initCanvasWallet();
-        multiSigWalletStore.updateExsitingWallets();
+        multiSigWalletStore.initExsitingWalletAddress();
     }, [multiSigWalletStore]);
 
     const handleItemClick = (_: any, { name }: MenuItemProps) => {
@@ -66,7 +66,7 @@ const MultiSigWallet = () => {
             const res = await tx.wait();
             console.log('res=', res);
             try {
-                await multiSigWalletStore.updateExsitingWallets();
+                await multiSigWalletStore.initExsitingWalletAddress();
             } catch (err) {
                 console.error(err);
             }

@@ -1,12 +1,14 @@
 import { makeObservable, observable } from "mobx";
 import { ethers } from "ethers";
-import { http } from '../utils';
 import walletDeclareFile from '../deployments/MultiSigWallet.json';
+import { IMultiSigWalletDetails } from '../types';
 
 class MultiSigWalletStore {
     rootStore?: any;
     canvasWallet?: ethers.Contract;
+    multiSigWallet?: ethers.Contract;
     multiSigWalletAddress?: string[];
+    multiSigWalletDetails?: IMultiSigWalletDetails[];
     balance?: bigint;
 
     constructor(_rootStore: any) {
@@ -22,29 +24,35 @@ class MultiSigWalletStore {
     }
 
     initCanvasWallet = async () => {
-        console.log('init in store, this.network=', this.rootStore.walletStore.network);
         const walletFactoryDeclareFile = require(`../deployments/${this.rootStore.walletStore.network}/MultiSigWalletFactory.json`);
         this.canvasWallet = new ethers.Contract(
             walletFactoryDeclareFile.address,
             walletFactoryDeclareFile.abi,
             this.rootStore.walletStore.wallet
-        ) as ethers.Contract;
-        console.log('init in store, this.canvasWallet=', this.canvasWallet)
-        // await this._initMultiSigWalletsAddress();
+        );
     }
 
-    updateExsitingWallets = async () => {
+    initExsitingWalletAddress = async () => {
         this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.rootStore.walletStore.wallet!.address);
+        await this._initExsitingWalletDetails();
+    }
+
+    private _initExsitingWalletDetails = async () => {
+        this.multiSigWalletDetails = await Promise.all(this.multiSigWalletAddress!.map(async (address) => {
+            const wallet = this.getMultiSigWallet(address);
+            return {
+                address,
+                owners: await wallet.getOwners(),
+                numConfirmationsRequired: await wallet.numConfirmationsRequired(),
+                transactions: await wallet.getTransactions()
+            } as IMultiSigWalletDetails;
+        }))
+        console.log('this.multiSigWalletDetails=', this.multiSigWalletDetails)
     }
 
     private _initTransactionHistory = async () => {
         // this.transactionHistory = await this.provider!.getHistory(this.wallet.address);
     }
-
-    // private _initMultiSigWalletsAddress = async () => {
-    //     this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.rootStore.walletStore.wallet!.address);
-    //     console.log('multiSigWalletAddress=', this.multiSigWalletAddress)
-    // }
 }
 
 export default MultiSigWalletStore;
