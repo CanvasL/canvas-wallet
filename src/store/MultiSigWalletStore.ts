@@ -1,6 +1,5 @@
-import { makeAutoObservable, observable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { ethers } from "ethers";
-import { RecoveryType } from "../types";
 import { http } from '../utils';
 import walletDeclareFile from '../deployments/MultiSigWallet.json';
 
@@ -11,8 +10,11 @@ class MultiSigWalletStore {
     balance?: bigint;
 
     constructor(_rootStore: any) {
+        makeObservable(this, {
+            multiSigWalletAddress: observable,
+            balance: observable
+        });
         this.rootStore = _rootStore;
-        // makeAutoObservable(this);
     }
 
     getMultiSigWallet = (address: string) => {
