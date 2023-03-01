@@ -30,17 +30,21 @@ class MultiSigWalletStore {
             this.rootStore.walletStore.wallet
         ) as ethers.Contract;
         console.log('init in store, this.canvasWallet=', this.canvasWallet)
-        await this._initMultiSigWalletsAddress();
+        // await this._initMultiSigWalletsAddress();
+    }
+
+    updateExsitingWallets = async () => {
+        this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.rootStore.walletStore.wallet!.address);
     }
 
     private _initTransactionHistory = async () => {
         // this.transactionHistory = await this.provider!.getHistory(this.wallet.address);
     }
 
-    private _initMultiSigWalletsAddress = async () => {
-        this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.rootStore.walletStore.wallet!.address);
-        console.log('multiSigWalletAddress=', this.multiSigWalletAddress)
-    }
+    // private _initMultiSigWalletsAddress = async () => {
+    //     this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.rootStore.walletStore.wallet!.address);
+    //     console.log('multiSigWalletAddress=', this.multiSigWalletAddress)
+    // }
 }
 
 export default MultiSigWalletStore;

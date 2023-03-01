@@ -16,6 +16,7 @@ const MultiSigWallet = () => {
     useEffect(() => {
         console.log("useEffect: init canvas wallet")
         multiSigWalletStore.initCanvasWallet();
+        multiSigWalletStore.updateExsitingWallets();
     }, [multiSigWalletStore]);
 
     const handleItemClick = (_: any, { name }: MenuItemProps) => {
@@ -29,6 +30,14 @@ const MultiSigWallet = () => {
         setState({
             ...state,
             numConfirmations: value
+        })
+    }
+
+    const handleOwnersChange = (_: any, { value, index }: InputProps) => {
+        owners[index] = value;
+        setState({
+            ...state,
+            owners
         })
     }
 
@@ -56,6 +65,11 @@ const MultiSigWallet = () => {
             console.log('tx=', tx)
             const res = await tx.wait();
             console.log('res=', res);
+            try {
+                await multiSigWalletStore.updateExsitingWallets();
+            } catch (err) {
+                console.error(err);
+            }
         } catch (err) {
             console.error(err);
         }
@@ -110,11 +124,13 @@ const MultiSigWallet = () => {
                                                 onClick: () => delOwner(index2),
                                                 disabled: index2 === 0 ? true : false
                                             }}
+                                            index={index2}
                                             icon='settings'
                                             value={owner}
                                             iconPosition='left'
                                             disabled={index2 === 0}
                                             placeholder='0x'
+                                            onChange={handleOwnersChange}
                                         />
                                     </Form.Field>
                                 )
