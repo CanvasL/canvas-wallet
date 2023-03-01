@@ -6,16 +6,11 @@ import { useStore } from '../../store';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 const Settings = () => {
-    const { walletStore } = useStore();
+    // const { walletStore } = useStore();
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [state, setState] = useState({ activeItem: pathname });
     const { activeItem } = state;
-
-    useEffect(() => {
-        walletStore.initCanvasWallet();
-        console.log("useEffect: init canvas wallet")
-    }, [walletStore]);
 
     const handleItemClick = (pathname: string) => {
         setState({ activeItem: pathname });
