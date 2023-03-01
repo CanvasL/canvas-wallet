@@ -1,5 +1,6 @@
 import './index.scss';
 import { useEffect, useState } from 'react';
+import { useObserver } from 'mobx-react-lite';
 import { Button, Form, Grid, Input, InputProps, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
@@ -61,7 +62,7 @@ const MultiSigWallet = () => {
     }
 
     const { activeItem, owners } = state;
-    return (
+    return useObserver(() => (
         <Grid>
             <Grid.Column width={6}>
                 <Menu size='large' vertical>
@@ -130,7 +131,7 @@ const MultiSigWallet = () => {
                 </Segment>
             </Grid.Column>
         </Grid>
-    )
+    ))
 }
 
 export default MultiSigWallet;

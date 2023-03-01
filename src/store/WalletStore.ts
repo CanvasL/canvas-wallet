@@ -1,37 +1,26 @@
-import { makeAutoObservable, observable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { ethers } from "ethers";
 import { RecoveryType } from "../types";
 import { http } from '../utils';
-import walletDeclareFile from '../deployments/MultiSigWallet.json';
 
 class WalletStore {
     network?: string;   // 'homestead' | 'goerli'
     wallet?: ethers.Wallet | ethers.HDNodeWallet;
-    // canvasWallet?: ethers.Contract;
-    // multiSigWalletAddress?: string[];
     provider?: ethers.Provider;
     balance?: bigint;
     prices?: any;
-    // transactionHistory?: Array<any>;
 
     constructor() {
-        // makeAutoObservable(this, {});
-        // makeAutoObservable(this, {
-        //     network: observable,
-        //     // wallet: observable,
-        //     // canvasWallet: observable,
-        //     // multiSigWalletAddress: observable,
-        //     // balance: observable,
-        //     // prices: observable
-        // });
+        makeObservable(this, {
+            network: observable,
+            wallet: observable,
+            balance: observable,
+            prices: observable
+        });
         this._initNetwork();
         this._initProvider();
         this._initWallet();
     }
-
-    // getMultiSigWallet = (address: string) => {
-    //     return new ethers.Contract(address, walletDeclareFile.abi, this.provider);
-    // }
 
     importWallet = async (type: RecoveryType, key: string) => {
         if (type === RecoveryType.PrivateKey) {
@@ -43,18 +32,6 @@ class WalletStore {
         await this._initBalance();
         await this._initPrices();
     }
-
-    // initCanvasWallet = async () => {
-    //     console.log('init in store, this.network=', this.network);
-    //     const walletFactoryDeclareFile = require(`../deployments/${this.network}/MultiSigWalletFactory.json`);
-    //     this.canvasWallet = new ethers.Contract(
-    //         walletFactoryDeclareFile.address,
-    //         walletFactoryDeclareFile.abi,
-    //         this.wallet
-    //     ) as ethers.Contract;
-    //     console.log('init in store, this.canvasWallet=', this.canvasWallet)
-    //     await this._initMultiSigWalletsAddress();
-    // }
 
     setNetwork = async (network: string) => {
         this.network = network;
@@ -87,11 +64,6 @@ class WalletStore {
     private _initTransactionHistory = async () => {
         // this.transactionHistory = await this.provider!.getHistory(this.wallet.address);
     }
-
-    // private _initMultiSigWalletsAddress = async () => {
-    //     this.multiSigWalletAddress = await this.canvasWallet!.getWalletsByCreater(this.wallet!.address);
-    //     console.log('multiSigWalletAddress=', this.multiSigWalletAddress)
-    // }
 }
 
 export default WalletStore
