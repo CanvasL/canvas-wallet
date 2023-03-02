@@ -14,7 +14,8 @@ class MultiSigWalletStore {
     constructor(_rootStore: any) {
         makeObservable(this, {
             multiSigWalletAddress: observable,
-            balance: observable
+            multiSigWalletDetails: observable,
+            balance: observable,
         });
         this.rootStore = _rootStore;
     }
