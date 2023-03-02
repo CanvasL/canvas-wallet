@@ -1,7 +1,7 @@
 import './index.scss';
 import { useEffect, useState } from 'react';
 import { useObserver } from 'mobx-react-lite';
-import { Button, Form, Grid, Input, InputProps, Label, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Input, InputProps, Label, Loader, Menu, MenuItemProps, Segment } from 'semantic-ui-react';
 import { useStore } from '../../store';
 import { shortenAddress } from '../../utils';
 
@@ -166,86 +166,92 @@ const MultiSigWallet = () => {
                         </Segment>
                     ) : (
                         <Segment>
-                            <Form>
-                                <Form.Field>
-                                    <label>Num Confirmations Required</label>
-                                    <Input
-                                        disabled={isEditConfirmations}
-                                        action={{
-                                            icon: isEditConfirmations ? 'edit' : 'upload',
-                                            onClick: isEditConfirmations ? () => setState({ ...state, isEditConfirmations: false })
-                                                : () => multiSigWalletStore.resetNumConfirmationsOnChain(activeItem, newNumConfirmations!),
-                                            disabled: !isEditConfirmations && newNumConfirmations === numConfirmations
-                                        }}
-                                        value={newNumConfirmations}
-                                        icon='tags'
-                                        iconPosition='left'
-                                        placeholder={multiSigWalletStore.getWalletDetailsByAddress(activeItem).numConfirmationsRequired.toString()}
-                                        onChange={(_: any, { value }: InputProps) => {
-                                            setState({
-                                                ...state,
-                                                newNumConfirmations: value
-                                            })
-                                        }}
-                                    />
-                                </Form.Field>
-                                {
-                                    multiSigWalletStore.getWalletDetailsByAddress(activeItem).owners.map((owner, index2) => {
-                                        return (
-                                            <Form.Field key={index2}>
-                                                <label>{`Owner ${index2 + 1}`}</label>
-                                                <Input
-                                                    action={{
-                                                        icon: 'trash',
-                                                        onClick: () => multiSigWalletStore.delOwnerOnChain(activeItem, newOwner!),
-                                                        disabled: index2 === 0 ? true : false
-                                                    }}
-                                                    icon='settings'
-                                                    value={owner}
-                                                    iconPosition='left'
-                                                    disabled
-                                                />
-                                            </Form.Field>
-                                        )
-                                    })
-                                }
-                                <Form.Field>
-                                    <Button
-                                        icon={isAddNewOwner ? 'minus' : 'add'}
-                                        onClick={() => {
-                                            setState({
-                                                ...state,
-                                                isAddNewOwner: !isAddNewOwner
-                                            })
-                                        }}
-                                    />
-                                </Form.Field>
-                                {
-                                    isAddNewOwner ?
+                            {
+                                multiSigWalletStore.multiSigWalletDetails ?
+                                    <Form>
                                         <Form.Field>
-                                            <label>{`New Owner`}</label>
+                                            <label>Num Confirmations Required</label>
                                             <Input
+                                                disabled={isEditConfirmations}
                                                 action={{
-                                                    icon: 'upload',
-                                                    onClick: () => multiSigWalletStore.addOwnerOnChain(activeItem, newOwner!),
-                                                    disabled: newOwner ? false : true
+                                                    icon: isEditConfirmations ? 'edit' : 'upload',
+                                                    onClick: isEditConfirmations ? () => setState({ ...state, isEditConfirmations: false })
+                                                        : () => multiSigWalletStore.resetNumConfirmationsOnChain(activeItem, newNumConfirmations!),
+                                                    disabled: !isEditConfirmations && newNumConfirmations === numConfirmations
                                                 }}
-                                                icon='settings'
-                                                value={newOwner}
+                                                value={newNumConfirmations}
+                                                icon='tags'
                                                 iconPosition='left'
-                                                placeholder='0x'
+                                                placeholder={multiSigWalletStore.getWalletDetailsByAddress(activeItem).numConfirmationsRequired.toString()}
                                                 onChange={(_: any, { value }: InputProps) => {
                                                     setState({
                                                         ...state,
-                                                        newOwner: value
+                                                        newNumConfirmations: value
                                                     })
                                                 }}
                                             />
                                         </Form.Field>
-                                        :
-                                        <></>
-                                }
-                            </Form>
+                                        {
+                                            multiSigWalletStore.getWalletDetailsByAddress(activeItem).owners.map((owner, index2) => {
+                                                return (
+                                                    <Form.Field key={index2}>
+                                                        <label>{`Owner ${index2 + 1}`}</label>
+                                                        <Input
+                                                            action={{
+                                                                icon: 'trash',
+                                                                onClick: () => multiSigWalletStore.delOwnerOnChain(activeItem, newOwner!),
+                                                                disabled: index2 === 0 ? true : false
+                                                            }}
+                                                            icon='settings'
+                                                            value={owner}
+                                                            iconPosition='left'
+                                                            disabled
+                                                        />
+                                                    </Form.Field>
+                                                )
+                                            })
+                                        }
+                                        <Form.Field>
+                                            <Button
+                                                icon={isAddNewOwner ? 'minus' : 'add'}
+                                                onClick={() => {
+                                                    setState({
+                                                        ...state,
+                                                        isAddNewOwner: !isAddNewOwner
+                                                    })
+                                                }}
+                                            />
+                                        </Form.Field>
+                                        {
+                                            isAddNewOwner ?
+                                                <Form.Field>
+                                                    <label>{`New Owner`}</label>
+                                                    <Input
+                                                        action={{
+                                                            icon: 'upload',
+                                                            onClick: () => multiSigWalletStore.addOwnerOnChain(activeItem, newOwner!),
+                                                            disabled: newOwner ? false : true
+                                                        }}
+                                                        icon='settings'
+                                                        value={newOwner}
+                                                        iconPosition='left'
+                                                        placeholder='0x'
+                                                        onChange={(_: any, { value }: InputProps) => {
+                                                            setState({
+                                                                ...state,
+                                                                newOwner: value
+                                                            })
+                                                        }}
+                                                    />
+                                                </Form.Field>
+                                                :
+                                                <></>
+                                        }
+                                    </Form>
+                                    :
+                                    <Loader active inline='centered' />
+                            }
+
                         </Segment>
                     )
                 }
